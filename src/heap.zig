@@ -7,19 +7,21 @@ const Allocator = std.mem.Allocator;
 ///            (e.g., for MinHeap use a < b, for MaxHeap use a > b).
 pub fn Heap(comptime T: type, comptime compareFn: fn (T, T) bool) type {
     return struct {
+        allocator: std.mem.Allocator,
         items: std.ArrayList(T),
         const Self = @This();
 
         /// Initialize the heap with an allocator
         pub fn init(allocator: Allocator) Self {
             return Self{
-                .items = std.ArrayList(T).init(allocator),
+                .allocator = allocator,
+                .items = std.ArrayList(T).empty,
             };
         }
 
         /// Release all memory
         pub fn deinit(self: *Self) void {
-            self.items.deinit();
+            self.items.deinit(self.allocator);
         }
 
         /// Returns the number of elements in the heap
@@ -30,7 +32,7 @@ pub fn Heap(comptime T: type, comptime compareFn: fn (T, T) bool) type {
         /// Add an element to the heap
         pub fn insert(self: *Self, item: T) !void {
             // 1. Add element to the end of the array
-            try self.items.append(item);
+            try self.items.append(self.allocator, item);
             // 2. Fix the heap property by bubbling up
             self.siftUp(self.items.items.len - 1);
         }

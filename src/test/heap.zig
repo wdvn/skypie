@@ -28,7 +28,7 @@ test "heap operation" {
 
     // Extract them (Should come out sorted: 2, 5, 10, 30)
     std.debug.print("Extracting: ", .{});
-    while (min_heap.extract()) |val| {
+    while (min_heap.pop()) |val| {
         std.debug.print("{d} ", .{val});
     }
     std.debug.print("\n", .{});
