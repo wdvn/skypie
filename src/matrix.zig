@@ -40,14 +40,17 @@ pub fn Matrix(comptime T: type) type {
             @memset(self.data, value);
         }
 
-        pub fn print(self: Self, cast: fn (item: *T) str) void {
+        pub fn print(self: Self) void {
             for (range(self.rows), 0..) |_, r| {
                 for (range(self.cols), 0..) |_, c| {
-                    const s = cast(self.at(r, c));
-                    std.debug.print(" {s}", .{s});
+                    std.debug.print("{} ", .{self.at(r, c).*});
                 }
                 std.debug.print("\n", .{});
             }
         }
+        
+        // pub fn transpose(self: Self) Self{
+        //     
+        // }
     };
 }

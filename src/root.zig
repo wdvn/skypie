@@ -27,9 +27,9 @@ pub const matrix = @import("matrix.zig");
 pub const string = @import("string.zig");
 pub const types = @import("types.zig");
 
-// test "test matrix" {
-//     _ = @import("test/matrix.zig");
-// }
+test "test matrix" {
+    _ = @import("test/matrix.zig");
+}
 
 test "test heap" {
     _ = @import("test/heap.zig");
