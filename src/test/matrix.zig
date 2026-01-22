@@ -32,9 +32,10 @@ test "Matrix: fill and access" {
 
     mat.at(0, 1).* = 42.0;
     try testing.expectEqual(mat.at(0, 1).*, 42.0);
-    mat.print();
+    // mat.print();
     const trans = try mat.transpose();
-    trans.print();
+    // trans.print();
+    trans.deinit();
 }
 // 
 // test "Matrix: indexing logic" {

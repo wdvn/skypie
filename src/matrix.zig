@@ -43,14 +43,50 @@ pub fn Matrix(comptime T: type) type {
         pub fn print(self: Self) void {
             for (range(self.rows), 0..) |_, r| {
                 for (range(self.cols), 0..) |_, c| {
-                    std.debug.print("{} ", .{self.at(r, c).*});
+                    std.debug.print(" {} ", .{self.at(r, c).*});
                 }
                 std.debug.print("\n", .{});
             }
         }
-        
-        // pub fn transpose(self: Self) Self{
-        //     
+
+        pub fn printFlat(self: Self) void {
+            for (self.data) |v| {
+                std.debug.print(" {}", .{v});
+            }
+            std.debug.print("\n", .{});
+        }
+
+        // pub fn trace(self: Self) f32{
+        //     // int limit = min(rows, cols);
+        //     // for (int i = 0; i < limit; i++) {
+        //     //     // Phần tử đường chéo nằm ở: matrix[i * (cols + 1)]
+        //     // }
         // }
+
+        //TODO: Apply matrix tiling
+        // Transpose the matrix
+        pub fn transpose(self: Self) !Self {
+            const new_data = try self.allocator.alloc(T, self.rows * self.cols);
+            for (0..self.rows) |r| {
+                for (0..self.cols) |c| {
+                    new_data[c * self.rows + r] = self.data[r * self.cols + c];
+                }
+            }
+            return Self{
+                .allocator = self.allocator,
+                .data = new_data,
+                .rows = self.cols, 
+                .cols = self.rows,
+            };
+        }
+        //
+        // Reshape: convert matrix(m,n) => matrix(n,m)
+        // Transpose 
+        // Flatten/Ravel: convert multiple dimensions => 1D array
+        // Concatenate/Stack: Ghép nhiều ma trận lại với nhau theo hàng hoặc theo cột.
+        // Trace: Tính tổng các phần tử trên đường chéo chính.
+        // "Unpack" (Interleave)
+        // Tile-based Transpose
+        // Matrix Tiling
     };
 }
